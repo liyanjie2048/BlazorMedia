@@ -1,0 +1,58 @@
+﻿@inject ILogger<App> _logger
+
+<h2>Video</h2>
+<section>
+    <video id="Video" width="640" height="360">
+        <source src="/video.mp4" type="video/mp4" />
+    </video>
+    <div>
+        <button @onclick=@(()=>Print(video?.Get()))>GetVideo</button>
+        <button @onclick=@(()=>video?.Play())>PLAY</button>
+        <button @onclick=@(()=>video?.Pause())>PAUSE</button>
+        <button @onclick=@(()=>video?.SetLoop(video_loop=!video_loop))>LOOP</button>
+        <button @onclick=@(()=>video?.SetMuted(video_muted=!video_muted))>MUTED</button>
+        <button @onclick=@(()=>video?.SetFullscreen(video_fullscreen=!video_fullscreen))>FULLSCREEN</button>
+    </div>
+    <MediaRecognizer MediaId=@("Video") @ref=@(video) />
+</section>
+<h2>Audio</h2>
+<section>
+    <audio id="Audio" width="960">
+        <source src="/audio.mp3" />
+    </audio>
+    <div>
+        <button @onclick=@(()=>Print(audio?.Get()))>GetVideo</button>
+        <button @onclick=@(()=>audio?.Play())>PLAY</button>
+        <button @onclick=@(()=>audio?.Pause())>PAUSE</button>
+        <button @onclick=@(()=>audio?.SetLoop(audio_loop=!audio_loop))>LOOP</button>
+        <button @onclick=@(()=>audio?.SetMuted(audio_muted=!audio_muted))>MUTED</button>
+    </div>
+    <MediaRecognizer MediaId=@("Audio") @ref=@(audio) />
+</section>
+
+@code {
+    MediaRecognizer? video;
+    bool video_loop = false;
+    bool video_muted = false;
+    bool video_fullscreen = false;
+
+    MediaRecognizer? audio;
+    bool audio_loop = false;
+    bool audio_muted = false;
+
+    async void Print(ValueTask<MediaObject>? o)
+    {
+        try
+        {
+            if (o is not null)
+            {
+                var v = await o.Value;
+                _logger.LogInformation(System.Text.Json.JsonSerializer.Serialize(v));
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "ERROR");
+        }
+    }
+}
