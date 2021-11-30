@@ -16,8 +16,8 @@ BlazorÃ½Ìå¿ØÖÆ£¨Blazor video/audio controller/recognizer£©
         <button @onclick=@(()=>video?.Pause())>PAUSE</button>
         <button @onclick=@(()=>video?.SetLoop(true|false))>LOOP</button>
         <button @onclick=@(()=>video?.SetMuted(true|false))>MUTED</button>
-        <button @onclick=@(()=>video?.SetVolume(0~1))>LOOP</button>
-        <button @onclick=@(()=>video?.SetCurrentTime(int))>MUTED</button>
+        <button @onclick=@(()=>video?.SetVolume(0~1))>Volume</button>
+        <button @onclick=@(()=>video?.SetCurrentTime(int))>SetCurrentTime</button>
         <button @onclick=@(()=>video?.SetFullscreen(true|false))>FULLSCREEN</button>
     </div>
     @code{
