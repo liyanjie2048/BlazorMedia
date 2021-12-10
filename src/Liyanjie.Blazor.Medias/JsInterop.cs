@@ -8,7 +8,7 @@ namespace Liyanjie.Blazor.Medias
 
         public JsInterop(IJSRuntime jsRuntime)
         {
-            _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Liyanjie.Blazor.Medias/jsInterop.js").AsTask());
+            _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Liyanjie.Blazor.Medias/js.js").AsTask());
         }
 
         static string GetId(string? id) => id ?? string.Empty;

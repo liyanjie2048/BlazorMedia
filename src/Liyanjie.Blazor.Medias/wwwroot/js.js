@@ -10,6 +10,7 @@ export var media = {
             muted: m.muted,
             duration: m.duration,
             currentTime: m.currentTime,
+            fullscreen: document.fullscreen
         };
     },
     play(id) {

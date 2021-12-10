@@ -1,8 +1,8 @@
-﻿@inject ILogger<App> _logger
+﻿@inject ILogger<App> Logger
 
 <h2>Video</h2>
 <section>
-    <video id="Video" width="640" height="360">
+    <video id="Video" width="640" height="360" preload="metadata">
         <source src="/video.mp4" type="video/mp4" />
     </video>
     <div>
@@ -11,7 +11,7 @@
         <button @onclick=@(()=>video?.Pause())>PAUSE</button>
         <button @onclick=@(()=>video?.SetLoop(video_loop=!video_loop))>LOOP</button>
         <button @onclick=@(()=>video?.SetMuted(video_muted=!video_muted))>MUTED</button>
-        <button @onclick=@(()=>video?.SetFullscreen(video_fullscreen=!video_fullscreen))>FULLSCREEN</button>
+        <button @onclick=@(()=>video?.SetFullscreen(true))>FULLSCREEN</button>
     </div>
     <MediaRecognizer MediaId=@("Video") @ref=@(video) />
 </section>
@@ -34,7 +34,6 @@
     MediaRecognizer? video;
     bool video_loop = false;
     bool video_muted = false;
-    bool video_fullscreen = false;
 
     MediaRecognizer? audio;
     bool audio_loop = false;
@@ -47,12 +46,12 @@
             if (o is not null)
             {
                 var v = await o.Value;
-                _logger.LogInformation(System.Text.Json.JsonSerializer.Serialize(v));
+                Logger.LogInformation(System.Text.Json.JsonSerializer.Serialize(v));
             }
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, "ERROR");
+            Logger.LogError(ex, "ERROR");
         }
     }
 }
