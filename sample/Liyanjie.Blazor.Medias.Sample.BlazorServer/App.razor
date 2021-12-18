@@ -36,14 +36,17 @@
     bool audio_loop = false;
     bool audio_muted = false;
 
-    async void Print(ValueTask<MediaObject>? o)
+    async void Print(ValueTask<MediaObject?>? o)
     {
         try
         {
             if (o is not null)
             {
                 var v = await o.Value;
-                Logger.LogInformation(System.Text.Json.JsonSerializer.Serialize(v));
+                if (v is not null)
+                {
+                    Logger.LogInformation(System.Text.Json.JsonSerializer.Serialize(v));
+                }
             }
         }
         catch (Exception ex)
