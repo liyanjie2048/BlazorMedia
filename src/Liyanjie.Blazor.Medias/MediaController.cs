@@ -11,7 +11,7 @@ public class MediaController : IAsyncDisposable
         _moduleTask = new(() => jsRuntime.InvokeAsync<IJSObjectReference>("import", "./_content/Liyanjie.Blazor.Medias/js.js").AsTask());
     }
 
-    public async ValueTask<MediaObject?> Get(string mediaId)
+    public async ValueTask<MediaObject?> GetAsync(string mediaId)
     {
         try
         {
@@ -23,7 +23,7 @@ public class MediaController : IAsyncDisposable
             return default;
         }
     }
-    public async ValueTask Play(params string[] mediaIds)
+    public async ValueTask PlayAsync(params string[] mediaIds)
     {
         if (mediaIds is not null)
             try
@@ -40,7 +40,7 @@ public class MediaController : IAsyncDisposable
             }
             catch (Exception) { }
     }
-    public async ValueTask Pause(params string[] mediaIds)
+    public async ValueTask PauseAsync(params string[] mediaIds)
     {
         if (mediaIds is not null)
             try
@@ -57,42 +57,24 @@ public class MediaController : IAsyncDisposable
             }
             catch (Exception) { }
     }
-    public async ValueTask Mute(params string[] mediaIds)
+    public async ValueTask MuteAsync(params string[] mediaIds)
     {
         if (mediaIds is not null)
-            try
+            foreach (var mediaId in mediaIds)
             {
-                var module = await _moduleTask.Value;
-                foreach (var mediaId in mediaIds)
-                {
-                    try
-                    {
-                        await module.InvokeVoidAsync("$blazor_media.mute", mediaId);
-                    }
-                    catch (Exception) { }
-                }
+                await SetMutedAsync(mediaId, true);
             }
-            catch (Exception) { }
     }
-    public async ValueTask VolumeUp(string mediaId)
+    public async ValueTask SetMutedAsync(string mediaId, bool muted)
     {
         try
         {
             var module = await _moduleTask.Value;
-            await module.InvokeVoidAsync("$blazor_media.volumeUp", mediaId);
+            await module.InvokeVoidAsync("$blazor_media.setMuted", mediaId, muted);
         }
         catch (Exception) { }
     }
-    public async ValueTask VolumeDown(string mediaId)
-    {
-        try
-        {
-            var module = await _moduleTask.Value;
-            await module.InvokeVoidAsync("$blazor_media.volumeDown", mediaId);
-        }
-        catch (Exception) { }
-    }
-    public async ValueTask SetVolume(string mediaId, double volume)
+    public async ValueTask SetVolumeAsync(string mediaId, double volume)
     {
         try
         {
@@ -101,7 +83,7 @@ public class MediaController : IAsyncDisposable
         }
         catch (Exception) { }
     }
-    public async ValueTask SetLoop(string mediaId, bool loop)
+    public async ValueTask SetLoopAsync(string mediaId, bool loop)
     {
         try
         {
@@ -110,7 +92,7 @@ public class MediaController : IAsyncDisposable
         }
         catch (Exception) { }
     }
-    public async ValueTask SetCurrentTime(string mediaId, int currentTime)
+    public async ValueTask SetCurrentTimeAsync(string mediaId, int currentTime)
     {
         try
         {
@@ -119,7 +101,7 @@ public class MediaController : IAsyncDisposable
         }
         catch (Exception) { }
     }
-    public async ValueTask SetFullscreen(string mediaId, bool fullscreen)
+    public async ValueTask SetFullscreenAsync(string mediaId, bool fullscreen)
     {
         try
         {
