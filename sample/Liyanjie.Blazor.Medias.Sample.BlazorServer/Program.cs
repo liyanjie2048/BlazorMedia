@@ -2,7 +2,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddScoped<Liyanjie.Blazor.Medias.MediaController>();
-builder.Services.AddScoped<Liyanjie.Blazor.Medias.MediaController>();
 
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
