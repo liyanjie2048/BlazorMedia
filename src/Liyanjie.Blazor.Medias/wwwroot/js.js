@@ -1,46 +1,69 @@
 export var $blazor_media = {
-    get(id) {
-        var m = document.getElementById(id);
-        console.log(m.volume);
-        return {
-            autoplay: m.autoplay,
-            controls: m.controls,
-            crossorigin: m.crossorigin,
-            currentTime: m.currentTime,
-            duration: m.duration,
-            fullscreen: document.fullscreen,
-            loop: m.loop,
-            muted: m.muted,
-            preload: m.preload,
-            volume: m.volume,
-        };
+    get(mediaId) {
+        console.log(`media_get----------${mediaId}`);
+        try {
+            var m = document.getElementById(mediaId);
+            return {
+                autoplay: m.autoplay,
+                controls: m.controls,
+                crossorigin: m.crossorigin,
+                currentTime: m.currentTime,
+                duration: m.duration,
+                fullscreen: document.fullscreen,
+                loop: m.loop,
+                muted: m.muted,
+                preload: m.preload,
+                volume: m.volume,
+            };
+        } catch (exception) { }
     },
-    play(id) {
-        document.getElementById(id)?.play();
+    play(mediaId) {
+        console.log(`media_play----------${mediaId}`);
+        try {
+            document.getElementById(mediaId)?.play();
+        } catch (exception) { }
     },
-    pause(id) {
-        document.getElementById(id)?.pause();
+    pause(mediaId) {
+        console.log(`media_pause----------${mediaId}`);
+        try {
+            document.getElementById(mediaId)?.pause();
+        } catch (exception) { }
     },
-    setMuted(id, muted) {
-        var m = document.getElementById(id);
-        m && (m.muted = muted);
+    setMuted(mediaId, muted) {
+        console.log(`media_setMuted----------${mediaId}`);
+        try {
+            var m = document.getElementById(mediaId);
+            m && (m.muted = muted);
+        } catch (exception) { }
     },
-    setLoop(id, loop) {
-        var m = document.getElementById(id);
-        m && (m.loop = loop);
+    setVolume(mediaId, volume) {
+        console.log(`media_setVolume----------${mediaId}`);
+        try {
+            var m = document.getElementById(mediaId);
+            m && (m.volume = volume);
+        } catch (exception) { }
     },
-    setCurrentTime(id, currentTime) {
-        var m = document.getElementById(id);
-        m && (m.currentTime = currentTime);
+    setLoop(mediaId, loop) {
+        console.log(`media_setLoop----------${mediaId}`);
+        try {
+            var m = document.getElementById(mediaId);
+            m && (m.loop = loop);
+        } catch (exception) { }
     },
-    setVolume(id, volume) {
-        var m = document.getElementById(id);
-        m && (m.volume = volume);
+    setCurrentTime(mediaId, currentTime) {
+        console.log(`media_setCurrentTime----------${mediaId}`);
+        try {
+            var m = document.getElementById(mediaId);
+            m && (m.currentTime = currentTime);
+        } catch (exception) { }
     },
-    setFullscreen(id, fullscreen) {
-        if (fullscreen)
-            document.getElementById(id)?.requestFullscreen();
-        else
-            document.exitFullscreen();
+    setFullscreen(mediaId, fullscreen) {
+        console.log(`media_setFullscreen----------${mediaId}`);
+        try {
+            if (fullscreen)
+                document.getElementById(mediaId)?.requestFullscreen();
+            else
+                document.exitFullscreen();
+        } catch (exception) { }
     }
 };
