@@ -1,4 +1,5 @@
 ﻿@inject ILogger<App> Logger
+@inject MediaController MediaController
 
 <h2>Video</h2>
 <section>
@@ -6,14 +7,13 @@
         <source src="/video.mp4" type="video/mp4" />
     </video>
     <div>
-        <button @onclick=@(()=>Print(video?.Get()))>GetVideo</button>
-        <button @onclick=@(()=>video?.Play())>PLAY</button>
-        <button @onclick=@(()=>video?.Pause())>PAUSE</button>
-        <button @onclick=@(()=>video?.SetLoop(video_loop=!video_loop))>LOOP</button>
-        <button @onclick=@(()=>video?.SetMuted(video_muted=!video_muted))>MUTED</button>
-        <button @onclick=@(()=>video?.SetFullscreen(true))>FULLSCREEN</button>
+        <button @onclick=@(()=>Print(MediaController?.Get("Video")))>GetVideo</button>
+        <button @onclick=@(()=>MediaController?.Play("Video"))>PLAY</button>
+        <button @onclick=@(()=>MediaController?.Pause("Video"))>PAUSE</button>
+        <button @onclick=@(()=>MediaController?.SetLoop("Video",video_loop=!video_loop))>LOOP</button>
+        <button @onclick=@(()=>MediaController?.SetMuted("Video",video_muted=!video_muted))>MUTED</button>
+        <button @onclick=@(()=>MediaController?.SetFullscreen("Video",true))>FULLSCREEN</button>
     </div>
-    <MediaRecognizer MediaId=@("Video") @ref=@(video) />
 </section>
 <h2>Audio</h2>
 <section>
@@ -21,21 +21,18 @@
         <source src="/audio.mp3" />
     </audio>
     <div>
-        <button @onclick=@(()=>Print(audio?.Get()))>GetVideo</button>
-        <button @onclick=@(()=>audio?.Play())>PLAY</button>
-        <button @onclick=@(()=>audio?.Pause())>PAUSE</button>
-        <button @onclick=@(()=>audio?.SetLoop(audio_loop=!audio_loop))>LOOP</button>
-        <button @onclick=@(()=>audio?.SetMuted(audio_muted=!audio_muted))>MUTED</button>
+        <button @onclick=@(()=>Print(MediaController?.Get("Audio")))>GetVideo</button>
+        <button @onclick=@(()=>MediaController?.Play("Audio"))>PLAY</button>
+        <button @onclick=@(()=>MediaController?.Pause("Audio"))>PAUSE</button>
+        <button @onclick=@(()=>MediaController?.SetLoop("Audio",audio_loop=!audio_loop))>LOOP</button>
+        <button @onclick=@(()=>MediaController?.SetMuted("Audio",audio_muted=!audio_muted))>MUTED</button>
     </div>
-    <MediaRecognizer MediaId=@("Audio") @ref=@(audio) />
 </section>
 
 @code {
-    MediaRecognizer? video;
     bool video_loop = false;
     bool video_muted = false;
 
-    MediaRecognizer? audio;
     bool audio_loop = false;
     bool audio_muted = false;
 

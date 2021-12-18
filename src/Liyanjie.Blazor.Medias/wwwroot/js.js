@@ -1,16 +1,18 @@
-export var media = {
+export var $blazor_media = {
     get(id) {
         var m = document.getElementById(id);
+        console.log(m.volume);
         return {
             autoplay: m.autoplay,
             controls: m.controls,
             crossorigin: m.crossorigin,
-            preload: m.preload,
+            currentTime: m.currentTime,
+            duration: m.duration,
+            fullscreen: document.fullscreen,
             loop: m.loop,
             muted: m.muted,
-            duration: m.duration,
-            currentTime: m.currentTime,
-            fullscreen: document.fullscreen
+            preload: m.preload,
+            volume: m.volume,
         };
     },
     play(id) {
