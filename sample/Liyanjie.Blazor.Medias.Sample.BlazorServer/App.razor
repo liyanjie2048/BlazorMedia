@@ -7,29 +7,32 @@
         <source src="/video.mp4" type="video/mp4" />
     </video>
     <div>
-        <button @onclick=@(()=>Print(MediaController.GetAsync("Video")))>GetVideo</button>
-        <button @onclick=@(()=>MediaController.PlayAsync("Video"))>PLAY</button>
-        <button @onclick=@(()=>MediaController.PauseAsync("Video"))>PAUSE</button>
-        <button @onclick=@(()=>MediaController.SetLoopAsync("Video",video_loop=!video_loop))>LOOP</button>
-        <button @onclick=@(()=>MediaController.SetMutedAsync("Video",video_muted=!video_muted))>MUTED</button>
-        <button @onclick=@(()=>MediaController.SetFullscreenAsync("Video",true))>FULLSCREEN</button>
+        <button @onclick=@(()=>Print(MediaController.GetAsync("videoId")))>GetVideo</button>
+        <button @onclick=@(()=>MediaController.PlayAsync("videoId"))>PLAY</button>
+        <button @onclick=@(()=>MediaController.PauseAsync("videoId"))>PAUSE</button>
+        <button @onclick=@(()=>MediaController.SetControlsAsync("videoId",video_controls=!video_controls))>CONTROLS</button>
+        <button @onclick=@(()=>MediaController.SetLoopAsync("videoId",video_loop=!video_loop))>LOOP</button>
+        <button @onclick=@(()=>MediaController.SetMutedAsync("videoId",video_muted=!video_muted))>MUTED</button>
+        <button @onclick=@(()=>MediaController.SetFullscreenAsync("videoId",true))>FULLSCREEN</button>
     </div>
 </section>
 <h2>Audio</h2>
 <section>
-    <audio id="Audio" width="960">
+    <audio id="audioId" width="960">
         <source src="/audio.mp3" />
     </audio>
     <div>
-        <button @onclick=@(()=>Print(MediaController.GetAsync("Audio")))>GetVideo</button>
-        <button @onclick=@(()=>MediaController.PlayAsync("Audio"))>PLAY</button>
-        <button @onclick=@(()=>MediaController.PauseAsync("Audio"))>PAUSE</button>
-        <button @onclick=@(()=>MediaController.SetLoopAsync("Audio",audio_loop=!audio_loop))>LOOP</button>
-        <button @onclick=@(()=>MediaController.SetMutedAsync("Audio",audio_muted=!audio_muted))>MUTED</button>
+        <button @onclick=@(()=>Print(MediaController.GetAsync("audioId")))>GetVideo</button>
+        <button @onclick=@(()=>MediaController.PlayAsync("audioId"))>PLAY</button>
+        <button @onclick=@(()=>MediaController.PauseAsync("audioId"))>PAUSE</button>
+        <button @onclick=@(()=>MediaController.SetControlsAsync("audioId",video_controls=!video_controls))>CONTROLS</button>
+        <button @onclick=@(()=>MediaController.SetLoopAsync("audioId",audio_loop=!audio_loop))>LOOP</button>
+        <button @onclick=@(()=>MediaController.SetMutedAsync("audioId",audio_muted=!audio_muted))>MUTED</button>
     </div>
 </section>
 
 @code {
+    bool video_controls = false;
     bool video_loop = false;
     bool video_muted = false;
 

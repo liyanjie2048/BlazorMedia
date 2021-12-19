@@ -43,6 +43,13 @@ export var $blazor_media = {
             m && (m.volume = volume);
         } catch (exception) { }
     },
+    setControls(mediaId, controls) {
+        console.log(`media_setControls----------${mediaId}`);
+        try {
+            let m = document.getElementById(mediaId);
+            m && (m.controls = controls);
+        } catch (exception) { }
+    },
     setLoop(mediaId, loop) {
         console.log(`media_setLoop----------${mediaId}`);
         try {

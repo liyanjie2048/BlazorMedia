@@ -83,6 +83,15 @@ public class MediaController : IAsyncDisposable
         }
         catch (Exception) { }
     }
+    public async ValueTask SetControlsAsync(string mediaId, bool controls)
+    {
+        try
+        {
+            var module = await _moduleTask.Value;
+            await module.InvokeVoidAsync("$blazor_media.setControls", mediaId, controls);
+        }
+        catch (Exception) { }
+    }
     public async ValueTask SetLoopAsync(string mediaId, bool loop)
     {
         try
