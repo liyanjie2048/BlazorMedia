@@ -60,10 +60,19 @@ public class MediaController : IAsyncDisposable
     public async ValueTask MuteAsync(params string[] mediaIds)
     {
         if (mediaIds is not null)
-            foreach (var mediaId in mediaIds)
+            try
             {
-                await SetMutedAsync(mediaId, true);
+                var module = await _moduleTask.Value;
+                foreach (var mediaId in mediaIds)
+                {
+                    try
+                    {
+                        await module.InvokeVoidAsync("$blazor_media.setMuted", mediaId, true);
+                    }
+                    catch (Exception) { }
+                }
             }
+            catch (Exception) { }
     }
     public async ValueTask SetMutedAsync(string mediaId, bool muted)
     {
