@@ -40,7 +40,10 @@ export var $blazor_media = {
         console.log(`media_setVolume----------${mediaId}`);
         try {
             let m = document.getElementById(mediaId);
-            m && (m.volume = volume);
+            if (m) {
+                m.muted = volume == 0;
+                m.volume = volume;
+            }
         } catch (exception) { }
     },
     setControls(mediaId, controls) {
