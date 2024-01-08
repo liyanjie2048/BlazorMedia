@@ -1,14 +1,14 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
-		<TargetFrameworks>net6.0;net5.0;</TargetFrameworks>
+		<TargetFrameworks>net6.0;net8.0;</TargetFrameworks>
 		<Nullable>enable</Nullable>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Description>Blazor媒体控制</Description>
 		<Copyright>© Liyanjie.net</Copyright>
 		<Authors>liyanjie8712@outlook.com</Authors>
 		<Company>Liyanjie.net</Company>
-		<RepositoryUrl>https://github.com/liyanjie8712/BlazorMedias</RepositoryUrl>
-		<PackageProjectUrl>https://github.com/liyanjie8712/BlazorMedias</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/liyanjie2048/BlazorMedias</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/liyanjie2048/BlazorMedias</PackageProjectUrl>
 		<RepositoryType>Git</RepositoryType>
 		<PackageIcon>liyanjie.net.256.png</PackageIcon>
 		<PackageIconUrl />
@@ -30,19 +30,11 @@
 	</ItemGroup>
 
 	<Target Name="MovePackage" AfterTargets="Pack">
-		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="D:\_Packages\" />
+		<Move SourceFiles="$(OutputPath)$(PackageId).$(PackageVersion).nupkg" DestinationFolder="$(SolutionPath)\..\dist" />
 	</Target>
 
-	<ItemGroup Condition="'$(TargetFramework)'=='net6.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.0" />
-	</ItemGroup>
-
-	<ItemGroup Condition="'$(TargetFramework)'=='net5.0'">
-		<PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="5.0.0" />
-	</ItemGroup>
-
 	<ItemGroup>
-	  <Folder Include="Components\" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Web" />
 	</ItemGroup>
 
 </Project>

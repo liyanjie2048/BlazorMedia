@@ -1,0 +1,82 @@
+﻿@page "/1"
+
+@inject ILogger<Test1> Logger
+@inject MediaController MediaController
+
+<h2>Video</h2>
+<section>
+    <video id="VIDEO" preload="metadata"
+           width="640" height="360"
+           controls loop muted>
+        <source src="/video.mp4" type="video/mp4" />
+    </video>
+    <div>
+        <button @onclick=@(()=>PrintAsync(MediaController.GetAsync("VIDEO")))>GetVideo</button>
+        <button @onclick=@(()=>MediaController.PlayAsync("VIDEO"))>PLAY</button>
+        <button @onclick=@(()=>MediaController.PauseAsync("VIDEO"))>PAUSE</button>
+        <button style="@(Style(video_controls))" @onclick=@(()=>MediaController.SetControlsAsync("VIDEO",video_controls=!video_controls))>CONTROLS</button>
+        <button style="@(Style(video_loop))" @onclick=@(()=>MediaController.SetLoopAsync("VIDEO",video_loop=!video_loop))>LOOP</button>
+        <button style="@(Style(video_muted))" @onclick=@(()=>MediaController.SetMutedAsync("VIDEO",video_muted=!video_muted))>MUTED</button>
+        <button @onclick=@(()=>MediaController.SetFullscreenAsync("VIDEO",true))>FULLSCREEN</button>
+    </div>
+</section>
+<h2>Audio</h2>
+<section>
+    <audio id="AUDIO" preload="metadata"
+           controls loop muted>
+        <source src="/audio.mp3" />
+    </audio>
+    <div>
+        <button @onclick=@(()=>PrintAsync(MediaController.GetAsync("AUDIO")))>GetAudeo</button>
+        <button @onclick=@(()=>MediaController.PlayAsync("AUDIO"))>PLAY</button>
+        <button @onclick=@(()=>MediaController.PauseAsync("AUDIO"))>PAUSE</button>
+        <button style="@(Style(audio_controls))" @onclick=@(()=>MediaController.SetControlsAsync("AUDIO",audio_controls=!audio_controls))>CONTROLS</button>
+        <button style="@(Style(audio_loop))" @onclick=@(()=>MediaController.SetLoopAsync("AUDIO",audio_loop=!audio_loop))>LOOP</button>
+        <button style="@(Style(audio_muted))" @onclick=@(()=>MediaController.SetMutedAsync("AUDIO",audio_muted=!audio_muted))>MUTED</button>
+        <button @onclick=@(()=>MediaController.SetFullscreenAsync("AUDIO",true))>FULLSCREEN</button>
+    </div>
+</section>
+
+@code {
+    bool video_controls;
+    bool video_loop;
+    bool video_muted;
+
+    bool audio_controls;
+    bool audio_loop;
+    bool audio_muted;
+
+    string? Style(bool value) => value ? "color:red" : null;
+    async void PrintAsync(ValueTask<MediaObject?> task)
+    {
+        try
+        {
+            var value = await task;
+            if (value is not null)
+            {
+                Logger.LogInformation(System.Text.Json.JsonSerializer.Serialize(value));
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "ERROR");
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            video_controls = await MediaController.ValueAsync<bool>("VIDEO", "controls");
+            video_loop = await MediaController.ValueAsync<bool>("VIDEO", "loop");
+            video_muted = await MediaController.ValueAsync<bool>("VIDEO", "muted");
+
+            audio_controls = await MediaController.ValueAsync<bool>("AUDIO", "controls");
+            audio_loop = await MediaController.ValueAsync<bool>("AUDIO", "loop");
+            audio_muted = await MediaController.ValueAsync<bool>("AUDIO", "muted");
+
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}

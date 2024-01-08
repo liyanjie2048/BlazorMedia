@@ -1,0 +1,83 @@
+﻿@page "/2"
+
+@inject ILogger<Test2> Logger
+@inject MediaController MediaController
+
+<h2>Video</h2>
+<section>
+    <video id="VIDEO" width="640" height="360" preload="metadata" controls loop muted>
+        <source type="video/mp4" src="/video.mp4" />
+    </video>
+    @if (video is not null)
+    {
+        <div>
+            <button @onclick=@(()=>PrintAsync(video.GetObjectAsync()))>GetVideo</button>
+            <button style="@(Style(!video.Paused))" @onclick=@(()=>video.PlayAsync())>PLAY</button>
+            <button style="@(Style(video.Paused))" @onclick=@(()=>video.PauseAsync())>PAUSE</button>
+            <button style="@(Style(video.Controls))" @onclick=@(()=>video.ToggleControlsAsync())>CONTROLS</button>
+            <button style="@(Style(video.Loop))" @onclick=@(()=>video.ToggleLoopAsync())>LOOP</button>
+            <button style="@(Style(video.Muted))" @onclick=@(()=>video.ToggleMutedAsync())>MUTED</button>
+            <button style="@(Style(video.IsFullscreen))" @onclick=@(()=>video.ToggleFullscreenAsync())>FULLSCREEN</button>
+            <button style="@(Style(video.IsPictureInPicture))" @onclick=@(()=>video.TogglePictureInPictureAsync())>PictureInPicture</button>
+        </div>
+    }
+</section>
+<h2>Audio</h2>
+<section>
+    <audio id="AUDIO" preload="metadata" controls loop muted>
+        <source type="audio/mp3" src="/audio.mp3" />
+    </audio>
+    @if (audio is not null)
+    {
+        <div>
+            <button @onclick=@(()=>PrintAsync(audio.GetObjectAsync()))>GetAudio</button>
+            <button style="@(Style(!audio.Paused))" @onclick=@(()=>audio.PlayAsync())>PLAY</button>
+            <button style="@(Style(audio.Paused))" @onclick=@(()=>audio.PauseAsync())>PAUSE</button>
+            <button style="@(Style(audio.Controls))" @onclick=@(()=>audio.ToggleControlsAsync())>CONTROLS</button>
+            <button style="@(Style(audio.Loop))" @onclick=@(()=>audio.ToggleLoopAsync())>LOOP</button>
+            <button style="@(Style(audio.Muted))" @onclick=@(()=>audio.ToggleMutedAsync())>MUTED</button>
+            <button style="@(Style(audio.IsFullscreen))" @onclick=@(()=>audio.ToggleFullscreenAsync())>FULLSCREEN</button>
+            <button style="@(Style(audio.IsPictureInPicture))" @onclick=@(()=>audio.TogglePictureInPictureAsync())>PictureInPicture</button>
+        </div>
+    }
+</section>
+
+@code {
+    MediaReference? video;
+    MediaReference? audio;
+
+    string? Style(bool value) => value ? "color:red" : null;
+    async void PrintAsync(ValueTask<MediaObject> task)
+    {
+        try
+        {
+            var value = await task;
+            if (value is not null)
+            {
+                Logger.LogInformation(JsonSerializer.Serialize(value));
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "ERROR");
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        video = new("VIDEO", MediaController);
+        audio = new("AUDIO", MediaController);
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await video!.LoadAsync();
+            await audio!.LoadAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+}
